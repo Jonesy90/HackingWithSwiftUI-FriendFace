@@ -14,10 +14,25 @@ struct ContentView: View {
         NavigationStack {
             List {
                 ForEach(users) { user in
-                    Text(user.name)
+                    NavigationLink(value: user) {
+                        HStack {
+                            Circle()
+                                .fill(user.isActive ? .green : .red)
+                                .frame(width: 30)
+                            
+                            VStack(alignment: .leading) {
+                                Text(user.name)
+                                Text(user.company)
+                                    .font(.subheadline)
+                            }
+                        }
+                    }
                 }
             }
             .navigationTitle("FriendFace")
+            .navigationDestination(for: User.self) { user in
+                UserDetailView(user: user)
+            }
             .task {
                 await fetchUsers()
             }
@@ -33,12 +48,13 @@ struct ContentView: View {
             
             let (data, _) = try await URLSession.shared.data(from: url)
             
-            if let decodedUsers = try? JSONDecoder().decode([User].self, from: data) {
-                users = decodedUsers
-            }
+            let decoder = JSONDecoder()
+            decoder.dateDecodingStrategy = .iso8601
+            
+            users = try decoder.decode([User].self, from: data)
             
         } catch {
-            
+            print("Failed to download.")
         }
     }
 }
