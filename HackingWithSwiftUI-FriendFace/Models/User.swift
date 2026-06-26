@@ -36,6 +36,20 @@ class User: Codable {
     var tags: [String]
     var friends: [Friend]
     
+    init(id: UUID, isActive: Bool, name: String, age: Int, company: String, email: String, address: String, about: String, registered: Date, tags: [String], friends: [Friend]) {
+        self.id = id
+        self.isActive = isActive
+        self.name = name
+        self.age = age
+        self.company = company
+        self.email = email
+        self.address = address
+        self.about = about
+        self.registered = registered
+        self.tags = tags
+        self.friends = friends
+    }
+    
     required init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try container.decode(UUID.self, forKey: .id)
@@ -68,5 +82,23 @@ class User: Codable {
 }
 
 extension User {
-    //TODO: Can we include sample data in here?
+    static let sample = User(
+        id: UUID(),
+        isActive: true,
+        name: "John Appleseed",
+        age: 30,
+        company: "Apple Inc.",
+        email: "john@apple.com",
+        address: "1 Infinite Loop, Cupertino, CA",
+        about: "Lorem ipsum dolor sit amet.",
+        registered: Date(),
+        tags: ["developer", "swift", "ios"],
+        friends: []
+    )
+    
+    static let examples: [User] = [
+        // You can put multiple User instances here for a list of samples
+        sample
+    ]
 }
+

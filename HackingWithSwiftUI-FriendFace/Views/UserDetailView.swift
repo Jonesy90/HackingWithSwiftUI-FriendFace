@@ -34,6 +34,6 @@ struct UserDetailView: View {
     }
 }
 
-//#Preview {
-//    UserDetailView(user: User.example)
-//}
+#Preview {
+    UserDetailView(user: User.sample)
+}
