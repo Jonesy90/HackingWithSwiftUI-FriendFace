@@ -5,6 +5,7 @@
 //  Created by Michael Jones on 25/06/2026.
 //
 
+import SwiftData
 import SwiftUI
 
 @main
@@ -13,5 +14,6 @@ struct HackingWithSwiftUI_FriendFaceApp: App {
         WindowGroup {
             ContentView()
         }
+        .modelContainer(for: User.self)
     }
 }

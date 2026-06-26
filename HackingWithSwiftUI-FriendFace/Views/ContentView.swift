@@ -5,10 +5,12 @@
 //  Created by Michael Jones on 25/06/2026.
 //
 
+import SwiftData
 import SwiftUI
 
 struct ContentView: View {
-    @State private var users = [User]()
+    @Environment(\.modelContext) var modelContext
+    @Query var users: [User]
     
     var body: some View {
         NavigationStack {
@@ -51,7 +53,10 @@ struct ContentView: View {
             let decoder = JSONDecoder()
             decoder.dateDecodingStrategy = .iso8601
             
-            users = try decoder.decode([User].self, from: data)
+            let downloadedUsers = try decoder.decode([User].self, from: data)
+            for user in downloadedUsers {
+                modelContext.insert(user)
+            }
             
         } catch {
             print("Failed to download.")
