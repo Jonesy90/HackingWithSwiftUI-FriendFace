@@ -10,10 +10,14 @@ import SwiftUI
 
 @main
 struct HackingWithSwiftUI_FriendFaceApp: App {
+    let dataContainer = DataContainer()
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environment(dataContainer)
         }
-        .modelContainer(for: User.self)
+//        .modelContainer(for: User.self)
+        .modelContainer(dataContainer.modelContainer)
     }
 }

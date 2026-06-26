@@ -66,3 +66,7 @@ class User: Codable {
         try container.encode(self.friends, forKey: .friends)
     }
 }
+
+extension User {
+    //TODO: Can we include sample data in here?
+}

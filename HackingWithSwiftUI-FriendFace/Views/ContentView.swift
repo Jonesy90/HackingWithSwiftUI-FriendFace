@@ -9,8 +9,8 @@ import SwiftData
 import SwiftUI
 
 struct ContentView: View {
-    @Environment(\.modelContext) var modelContext
-    @Query var users: [User]
+    @Environment(DataContainer.self) private var dataContainer
+    @Query(sort: \User.name) var users: [User]
     
     var body: some View {
         NavigationStack {
@@ -55,7 +55,7 @@ struct ContentView: View {
             
             let downloadedUsers = try decoder.decode([User].self, from: data)
             for user in downloadedUsers {
-                modelContext.insert(user)
+                dataContainer.context.insert(user)
             }
             
         } catch {
