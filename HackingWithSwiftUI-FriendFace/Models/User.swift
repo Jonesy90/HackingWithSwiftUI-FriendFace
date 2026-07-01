@@ -10,6 +10,7 @@ import Foundation
 
 @Model
 class User: Codable {
+    /// CodingKeys are an internal enum used by Swift and is used when encoding and decoding the model to and from formats like JSON or Property List.
     enum CodingKeys: CodingKey {
         case id
         case isActive
@@ -50,8 +51,12 @@ class User: Codable {
         self.friends = friends
     }
     
+    /// This is a special initialiser required by the Codable protocol. It's used to create an instance of the User class from an external data source (e.g., JSON).
     required init(from decoder: any Decoder) throws {
+        /// This asks the decode for a container that knows all about the keys defined in the internal CodingKeys enum.
         let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        /// Each of these pulls a value out of the container and is provided a key.
         self.id = try container.decode(UUID.self, forKey: .id)
         self.isActive = try container.decode(Bool.self, forKey: .isActive)
         self.name = try container.decode(String.self, forKey: .name)
@@ -65,6 +70,7 @@ class User: Codable {
         self.friends = try container.decode([Friend].self, forKey: .friends)
     }
     
+    /// This method is used to encode a User instance into an external representation (e.g., JSON).
     func encode(to encoder: any Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(self.id, forKey: .id)
